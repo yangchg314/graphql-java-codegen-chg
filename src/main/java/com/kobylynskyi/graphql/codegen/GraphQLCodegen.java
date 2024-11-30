@@ -2,13 +2,10 @@ package com.kobylynskyi.graphql.codegen;
 
 import com.kobylynskyi.graphql.codegen.generators.FilesGenerator;
 import com.kobylynskyi.graphql.codegen.generators.FilesGeneratorsFactory;
+import com.kobylynskyi.graphql.codegen.mapper.DataModelMapper;
 import com.kobylynskyi.graphql.codegen.mapper.DataModelMapperFactory;
 import com.kobylynskyi.graphql.codegen.mapper.MapperFactory;
-import com.kobylynskyi.graphql.codegen.model.GeneratedInformation;
-import com.kobylynskyi.graphql.codegen.model.MappingConfig;
-import com.kobylynskyi.graphql.codegen.model.MappingConfigDefaultValuesInitializer;
-import com.kobylynskyi.graphql.codegen.model.MappingConfigValidator;
-import com.kobylynskyi.graphql.codegen.model.MappingContext;
+import com.kobylynskyi.graphql.codegen.model.*;
 import com.kobylynskyi.graphql.codegen.model.definitions.ExtendedDocument;
 import com.kobylynskyi.graphql.codegen.model.definitions.ExtendedScalarTypeDefinition;
 import com.kobylynskyi.graphql.codegen.parser.GraphQLDocumentParser;
@@ -153,7 +150,8 @@ public abstract class GraphQLCodegen {
         long startTime = System.currentTimeMillis();
 
         // prepare output directory
-        Utils.deleteDir(outputDir);
+        File packageFile = new File(outputDir, mappingConfig.getPackageName());
+        Utils.deleteDir(packageFile);
         Utils.createDirIfAbsent(outputDir);
 
         if (!Utils.isEmpty(schemas)) {
